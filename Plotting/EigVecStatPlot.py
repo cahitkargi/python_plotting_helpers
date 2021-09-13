@@ -5,7 +5,7 @@ from quanguru import EigenVectorDist, WignerSurmise
 from .colorFuncs import colorCycle
 
 def plotEigStat(data, dimension, ax, bins, stepPlot=True, legend=False, theoryLines=True, density=True, htype='bar',#pylint:disable=too-many-arguments, bad-option-value, dangerous-default-value, too-many-locals
-                color=None, labels=[r'COE ($\beta = 1$)', r'CUE ($\beta = 2$)', r'CSE ($\beta = 4$)']):
+                color=None, labels=[r'COE', r'CUE', r'CSE ']):
     """
     Function to plot a histogram for the eigenvector statistics and also plots the theory lines on top.
 
@@ -68,7 +68,7 @@ def plotEigStat(data, dimension, ax, bins, stepPlot=True, legend=False, theoryLi
 
 
 def plotEigValStat(data, ax, bins, legend=False, theoryLines=True, density=True, htype='bar',#pylint:disable=too-many-arguments, dangerous-default-value
-                   labels=[r'COE ($\beta = 1$)', r'CUE ($\beta = 2$)', r'CSE ($\beta = 4$)'], color=None):
+                   labels=[r'COE', r'CUE', r'CSE'], color=None):
     """
     Function to plot a histogram for the eigenvalue statistics and also plots the theory lines on top.
 
@@ -100,7 +100,7 @@ def plotEigValStat(data, ax, bins, legend=False, theoryLines=True, density=True,
     ax.hist(data, bins=bins, density=density, histtype=htype, color=color)
     colors = colorCycle(3, 'viridis_r')
     if theoryLines:
-        ax.plot(xvals, [WignerSurmise(x, 0) for x in xvals], linestyle='-.', color='k', linewidth=1, label=r'$e^{-x}$')
+        ax.plot(xvals, [WignerSurmise(x, 0) for x in xvals], linestyle='-.', color='k', linewidth=1, label=r'$e^{-s}$')
         ax.plot(xvals, [WignerSurmise(x, 1) for x in xvals], linestyle='-.', color='lime', linewidth=1, label=labels[0])
         ax.plot(xvals, [WignerSurmise(x, 2) for x in xvals], linestyle='-.', color=colors[1], linewidth=1,
                 label=labels[1])

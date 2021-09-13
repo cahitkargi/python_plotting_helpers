@@ -1,6 +1,6 @@
 import numpy as np
 
-def cutAlist(listGiven, position = None, cut = None):
+def cutAlist(listGiven, position = None, cut = None, startPosition = 0):
     f"""
     Function to truncate a list at the given position or position divided buy some cut. The later option is introduced
     to create flexibility for time traces with different step sizes, so that if we give position as the time and the
@@ -11,22 +11,22 @@ def cutAlist(listGiven, position = None, cut = None):
     listReturn = listGiven
     if position is not None:
         if cut is None:
-            listReturn = listGiven[0:position]
+            listReturn = listGiven[startPosition:position]
         else:
             ran = int(position/cut)+1
-            listReturn = listGiven[0:ran]
-    return listReturn
+            listReturn = listGiven[startPosition:ran]
+    return listReturn if len(listReturn) > 0 else listGiven[0:1]
 
-def cutALOL(listOfLists, position = None, cuts = None):
+def cutALOL(listOfLists, position = None, cuts = None, startPosition = 0):
     f"""
     Same as :func:`cutAList` but for list of lists and calls `cutAList` for eacch sub-list. `cut` in this case can be a
     list.
     """
 
     if isinstance(cuts, (list, np.ndarray)):
-        listOfLists = [cutAlist(li, position, cuts[ind]) for ind, li in enumerate(listOfLists)]
+        listOfLists = [cutAlist(li, position, cuts[ind], startPosition) for ind, li in enumerate(listOfLists)]
     else:
-        listOfLists = [cutAlist(li, position, cuts) for li in listOfLists]
+        listOfLists = [cutAlist(li, position, cuts, startPosition) for li in listOfLists]
     return listOfLists
 
 def atEvery(n, ofList):
@@ -43,7 +43,7 @@ def atEvery(n, ofList):
 
     return [ofList[i] for i in range(len(ofList)) if i%n == 0]
 
-def maxLOL(listOfLists, position = None, cuts = None, minOf=False):
+def maxLOL(listOfLists, position = None, cuts = None, minOf=False, startPosition = 0):
     f"""
     Returns the maximum value in a list of lists and also returns minimum `if minOf`.
 
@@ -59,13 +59,13 @@ def maxLOL(listOfLists, position = None, cuts = None, minOf=False):
         A list of cut values (like step size)
     """
 
-    listOfLists = cutALOL(listOfLists, position, cuts)
+    listOfLists = cutALOL(listOfLists, position, cuts, startPosition)
     maxVal = max([max(l) for l in listOfLists])
     # if minOf:
     #     minVal = min([min(l) for l in listOfLists])
     return (maxVal, min([min(l) for l in listOfLists])) if minOf else maxVal
 
-def minLOL(listOfLists, position = None, cuts = None, maxOf=False):
+def minLOL(listOfLists, position = None, cuts = None, maxOf=False, startPosition = 0):
     f"""
     Returns the minimum value in a list of lists and also returns maximum `if minOf`.
 
@@ -81,7 +81,7 @@ def minLOL(listOfLists, position = None, cuts = None, maxOf=False):
         A list of cut values (like step size)
     """
 
-    listOfLists = cutALOL(listOfLists, position, cuts)
+    listOfLists = cutALOL(listOfLists, position, cuts, startPosition)
     minVal = min([min(l) for l in listOfLists])
     # if maxOf:
     #     maxVal = max([max(l) for l in listOfLists])
@@ -89,7 +89,7 @@ def minLOL(listOfLists, position = None, cuts = None, maxOf=False):
 
 _isAbs = lambda a, b: abs(a-b)
 _isDif = lambda a, b: a-b
-def avgAbsErrLOL(list1, list2, position = None, cuts = None, absErr = True):
+def avgAbsErrLOL(list1, list2, position = None, cuts = None, absErr = True, startPosition = 0):
     f"""
     Calculates the average of point-wise (absolute, by default) errors for two lists at the same index of two lists of
     lists. `If absErr is False`, then absolute is not used.
@@ -116,8 +116,8 @@ def avgAbsErrLOL(list1, list2, position = None, cuts = None, absErr = True):
     """
 
     assert len(list1) == len(list2), "Given lists have different lengths"
-    list1 = cutALOL(list1, position, cuts)
-    list2 = cutALOL(list2, position, cuts)
+    list1 = cutALOL(list1, position, cuts, startPosition)
+    list2 = cutALOL(list2, position, cuts, startPosition)
     difFunc = _isAbs if absErr else _isDif
     errList = []
     for ii in range(len(list1)):
@@ -131,7 +131,7 @@ def avgAbsErrLOL(list1, list2, position = None, cuts = None, absErr = True):
         errList.append(sum(er1)/len(er1))
     return errList
 
-def meanLOL(listOfLists, position = None, cuts = None):
+def meanLOL(listOfLists, position = None, cuts = None, startPosition = 0):
     f"""[summary]
 
     Parameters
@@ -154,10 +154,10 @@ def meanLOL(listOfLists, position = None, cuts = None):
     # for ii in range(len(listOfLists)):
     #     lll.append(sum(listOfLists[ii])/len(listOfLists[ii]))
     # return lll
-    listOfLists = cutALOL(listOfLists, position, cuts)
+    listOfLists = cutALOL(listOfLists, position, cuts, startPosition)
     return [sum(lil)/len(lil) for lil in listOfLists]
 
-def divideLOL(listOfLists, value, position = None, cuts = None):
+def divideLOL(listOfLists, value, position = None, cuts = None, startPosition = 0):
     f"""
     Divide every sub-list of a list with the given dim value.
 
@@ -173,5 +173,5 @@ def divideLOL(listOfLists, value, position = None, cuts = None):
         A list of cut values (like step size)
     """
 
-    listOfLists = cutALOL(listOfLists, position, cuts)
+    listOfLists = cutALOL(listOfLists, position, cuts, startPosition)
     return [li/value for li in listOfLists]
