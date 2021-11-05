@@ -53,13 +53,19 @@ def plotEigStat(data, dimension, ax, bins, stepPlot=True, legend=False, theoryLi
         CSE = [EigenVectorDist(X, int(dimension), 4) for X in binMeans]
 
         if stepPlot:
-            ax.step(binMeans, COE, linestyle='-', color='lime', label=labels[0], linewidth=1)
-            ax.step(binMeans, CUE, linestyle='-', color=colors[1], label=labels[1], linewidth=1)
-            ax.step(binMeans, CSE, linestyle='-', color=colors[2], label=labels[2], linewidth=1)
+            # ax.step(binMeans, COE, linestyle='--', color='lime', label=labels[0], linewidth=1)
+            # ax.step(binMeans, CUE, linestyle='-.', color=colors[1], label=labels[1], linewidth=1)
+            # ax.step(binMeans, CSE, linestyle=(0, (1, 1)), color=colors[2], label=labels[2], linewidth=1)
+            ax.step(binMeans, COE, linestyle='--', color='k', label=labels[0], linewidth=1)
+            ax.step(binMeans, CUE, linestyle='-.', color='k', label=labels[1], linewidth=1)
+            ax.step(binMeans, CSE, linestyle=(0, (1, 1)), color='k', label=labels[2], linewidth=1)
         else:
-            ax.plot(binMeans, COE, linestyle='-', color='lime', label=labels[0], linewidth=1)
-            ax.plot(binMeans, CUE, linestyle='-', color=colors[1], label=labels[1], linewidth=1)
-            ax.plot(binMeans, CSE, linestyle='-', color=colors[2], label=labels[2], linewidth=1)
+            # ax.plot(binMeans, COE, linestyle='--', color='lime', label=labels[0], linewidth=1)
+            # ax.plot(binMeans, CUE, linestyle='-.', color=colors[1], label=labels[1], linewidth=1)
+            # ax.plot(binMeans, CSE, linestyle=(0, (1, 1)), color=colors[2], label=labels[2], linewidth=1)
+            ax.plot(binMeans, COE, linestyle='--', color='k', label=labels[0], linewidth=1)
+            ax.plot(binMeans, CUE, linestyle=(0, (3, 1, 1, 1)), color='k', label=labels[1], linewidth=1)
+            ax.plot(binMeans, CSE, linestyle=(0, (1, 1)), color='k', label=labels[2], linewidth=1)
 
     if legend:
         ax.legend(loc='upper right', prop={'size': 8})
@@ -100,11 +106,11 @@ def plotEigValStat(data, ax, bins, legend=False, theoryLines=True, density=True,
     ax.hist(data, bins=bins, density=density, histtype=htype, color=color)
     colors = colorCycle(3, 'viridis_r')
     if theoryLines:
-        ax.plot(xvals, [WignerSurmise(x, 0) for x in xvals], linestyle='-.', color='k', linewidth=1, label=r'$e^{-s}$')
-        ax.plot(xvals, [WignerSurmise(x, 1) for x in xvals], linestyle='-.', color='lime', linewidth=1, label=labels[0])
-        ax.plot(xvals, [WignerSurmise(x, 2) for x in xvals], linestyle='-.', color=colors[1], linewidth=1,
+        ax.plot(xvals, [WignerSurmise(x, 0) for x in xvals], linestyle='-', color='k', linewidth=1, label=r'$e^{-s}$')
+        ax.plot(xvals, [WignerSurmise(x, 1) for x in xvals], linestyle='--', color='k', linewidth=1, label=labels[0])
+        ax.plot(xvals, [WignerSurmise(x, 2) for x in xvals], linestyle=(0, (3, 1, 1, 1)), color='k', linewidth=1,
                 label=labels[1])
-        ax.plot(xvals, [WignerSurmise(x, 4) for x in xvals], linestyle='-.', color=colors[2], linewidth=1,
+        ax.plot(xvals, [WignerSurmise(x, 4) for x in xvals], linestyle=(0, (1, 1)), color='k', linewidth=1,
                 label=labels[2])
 
     if legend:

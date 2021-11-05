@@ -82,7 +82,7 @@ def omitTicks(axList, rows, columns, xt=True, yt=True, ticklabels=False): # pyli
                     ax.set_yticks([])
 
 def axTickSettings(ax, yonly=False, left=True, right=False, bottom=True, top=False, labelbottom=True,labeltop=False, # pylint:disable=too-many-arguments
-                   labelleft=True, labelright=False, minorCount=None):
+                   labelleft=True, labelright=False, minorCount=None, fontsize=10):
     """
     Apply certain settings to a given axes object.
 
@@ -113,7 +113,7 @@ def axTickSettings(ax, yonly=False, left=True, right=False, bottom=True, top=Fal
     ax.xaxis.set_minor_locator(tck.AutoMinorLocator(minorCount))
 
     ax.tick_params(axis='both', direction='in', bottom=bottom, top=top, left=left, right=right, labelleft=labelleft,
-                   labelbottom=labelbottom, labelright=labelright, labeltop=labeltop, which='both')
+                   labelbottom=labelbottom, labelright=labelright, labeltop=labeltop, which='both', labelsize=fontsize)
 
     ax.tick_params(length=4, width=1.2)
     ax.tick_params(length=2, width=1.2, which='minor')
@@ -123,10 +123,10 @@ def axTickSettings(ax, yonly=False, left=True, right=False, bottom=True, top=Fal
 
     if not yonly:
         for tick in ax.xaxis.get_major_ticks():
-            tick.label.set_fontsize(10)
+            tick.label.set_fontsize(fontsize)
 
     for tick in ax.yaxis.get_major_ticks():
-        tick.label.set_fontsize(10)
+        tick.label.set_fontsize(fontsize)
 
 def createLegend(ax, **kwargs):
     """
@@ -142,16 +142,18 @@ def createLegend(ax, **kwargs):
         'title':'j value',
         'loc':'upper left',
         'handlelength':1,
+        'handletextpad':0.25,
         'columnspacing':0.5,
         'labelcolor':'linecolor',
         'ncol':3,
-        'handleheight':2.4,
-        'labelspacing':-0.1,
+        'handleheight':1,
+        'labelspacing':0.2,
         'prop':dict(size=7)
     }
-    leg = ax.legend(**{k:kwargs.get(k, v) for k, v in defaultKwargs.items()})
+    leg = ax.legend(**kwargs, **{k:v for k, v in defaultKwargs.items() if k not in kwargs})
     for line in leg.get_lines():
         line.set_linewidth(1)
+    return leg
 
 def rcSettings():
     """
