@@ -82,7 +82,7 @@ def omitTicks(axList, rows, columns, xt=True, yt=True, ticklabels=False): # pyli
                     ax.set_yticks([])
 
 def axTickSettings(ax, yonly=False, left=True, right=False, bottom=True, top=False, labelbottom=True,labeltop=False, # pylint:disable=too-many-arguments
-                   labelleft=True, labelright=False, minorCount=None, fontsize=10):
+                   labelleft=True, labelright=False, minorCount=None, fontsize=10, lineWidth=1.2, lineLength=4):
     """
     Apply certain settings to a given axes object.
 
@@ -115,11 +115,11 @@ def axTickSettings(ax, yonly=False, left=True, right=False, bottom=True, top=Fal
     ax.tick_params(axis='both', direction='in', bottom=bottom, top=top, left=left, right=right, labelleft=labelleft,
                    labelbottom=labelbottom, labelright=labelright, labeltop=labeltop, which='both', labelsize=fontsize)
 
-    ax.tick_params(length=4, width=1.2)
-    ax.tick_params(length=2, width=1.2, which='minor')
+    ax.tick_params(length=lineLength, width=lineWidth)
+    ax.tick_params(length=int(lineLength/2), width=lineWidth, which='minor')
 
     for axis in ['top','bottom','left','right']:
-        ax.spines[axis].set_linewidth(1.2)
+        ax.spines[axis].set_linewidth(lineWidth)
 
     if not yonly:
         for tick in ax.xaxis.get_major_ticks():

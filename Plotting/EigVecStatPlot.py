@@ -5,7 +5,7 @@ from quanguru import EigenVectorDist, WignerSurmise
 from .colorFuncs import colorCycle
 
 def plotEigStat(data, dimension, ax, bins, stepPlot=True, legend=False, theoryLines=True, density=True, htype='bar',#pylint:disable=too-many-arguments, bad-option-value, dangerous-default-value, too-many-locals
-                color=None, labels=[r'COE', r'CUE', r'CSE ']):
+                color=None, labels=[r'COE', r'CUE', r'CSE '], linewidth=1, alpha=1):
     """
     Function to plot a histogram for the eigenvector statistics and also plots the theory lines on top.
 
@@ -39,7 +39,7 @@ def plotEigStat(data, dimension, ax, bins, stepPlot=True, legend=False, theoryLi
     axes
         returns the given axes object back
     """
-    hist = ax.hist(data, bins=bins, density=density, histtype=htype, color=color)
+    hist = ax.hist(data, bins=bins, density=density, histtype=htype, color=color, alpha=alpha)
     if not isinstance(bins, str):
         bins = hist[1]
     else:
@@ -56,16 +56,16 @@ def plotEigStat(data, dimension, ax, bins, stepPlot=True, legend=False, theoryLi
             # ax.step(binMeans, COE, linestyle='--', color='lime', label=labels[0], linewidth=1)
             # ax.step(binMeans, CUE, linestyle='-.', color=colors[1], label=labels[1], linewidth=1)
             # ax.step(binMeans, CSE, linestyle=(0, (1, 1)), color=colors[2], label=labels[2], linewidth=1)
-            ax.step(binMeans, COE, linestyle='--', color='k', label=labels[0], linewidth=1)
-            ax.step(binMeans, CUE, linestyle='-.', color='k', label=labels[1], linewidth=1)
-            ax.step(binMeans, CSE, linestyle=(0, (1, 1)), color='k', label=labels[2], linewidth=1)
+            ax.step(binMeans, COE, linestyle='--', color='k', label=labels[0], linewidth=linewidth)
+            ax.step(binMeans, CUE, linestyle=(0, (3, 1, 1, 1)), color='k', label=labels[1], linewidth=linewidth)
+            ax.step(binMeans, CSE, linestyle=(0, (1, 1)), color='k', label=labels[2], linewidth=linewidth)
         else:
             # ax.plot(binMeans, COE, linestyle='--', color='lime', label=labels[0], linewidth=1)
             # ax.plot(binMeans, CUE, linestyle='-.', color=colors[1], label=labels[1], linewidth=1)
             # ax.plot(binMeans, CSE, linestyle=(0, (1, 1)), color=colors[2], label=labels[2], linewidth=1)
-            ax.plot(binMeans, COE, linestyle='--', color='k', label=labels[0], linewidth=1)
-            ax.plot(binMeans, CUE, linestyle=(0, (3, 1, 1, 1)), color='k', label=labels[1], linewidth=1)
-            ax.plot(binMeans, CSE, linestyle=(0, (1, 1)), color='k', label=labels[2], linewidth=1)
+            ax.plot(binMeans, COE, linestyle='--', color='k', label=labels[0], linewidth=linewidth)
+            ax.plot(binMeans, CUE, linestyle=(0, (3, 1, 1, 1)), color='k', label=labels[1], linewidth=linewidth)
+            ax.plot(binMeans, CSE, linestyle=(0, (1, 1)), color='k', label=labels[2], linewidth=linewidth)
 
     if legend:
         ax.legend(loc='upper right', prop={'size': 8})
@@ -74,7 +74,7 @@ def plotEigStat(data, dimension, ax, bins, stepPlot=True, legend=False, theoryLi
 
 
 def plotEigValStat(data, ax, bins, legend=False, theoryLines=True, density=True, htype='bar',#pylint:disable=too-many-arguments, dangerous-default-value
-                   labels=[r'COE', r'CUE', r'CSE'], color=None):
+                   labels=[r'COE', r'CUE', r'CSE'], color=None, linewidth=1):
     """
     Function to plot a histogram for the eigenvalue statistics and also plots the theory lines on top.
 
@@ -106,11 +106,11 @@ def plotEigValStat(data, ax, bins, legend=False, theoryLines=True, density=True,
     ax.hist(data, bins=bins, density=density, histtype=htype, color=color)
     colors = colorCycle(3, 'viridis_r')
     if theoryLines:
-        ax.plot(xvals, [WignerSurmise(x, 0) for x in xvals], linestyle='-', color='k', linewidth=1, label=r'$e^{-s}$')
-        ax.plot(xvals, [WignerSurmise(x, 1) for x in xvals], linestyle='--', color='k', linewidth=1, label=labels[0])
-        ax.plot(xvals, [WignerSurmise(x, 2) for x in xvals], linestyle=(0, (3, 1, 1, 1)), color='k', linewidth=1,
+        ax.plot(xvals, [WignerSurmise(x, 0) for x in xvals], linestyle='-', color='k', linewidth=linewidth, label=r'$e^{-s}$')
+        ax.plot(xvals, [WignerSurmise(x, 1) for x in xvals], linestyle='--', color='k', linewidth=linewidth, label=labels[0])
+        ax.plot(xvals, [WignerSurmise(x, 2) for x in xvals], linestyle=(0, (3, 1, 1, 1)), color='k', linewidth=linewidth,
                 label=labels[1])
-        ax.plot(xvals, [WignerSurmise(x, 4) for x in xvals], linestyle=(0, (1, 1)), color='k', linewidth=1,
+        ax.plot(xvals, [WignerSurmise(x, 4) for x in xvals], linestyle=(0, (1, 1)), color='k', linewidth=linewidth,
                 label=labels[2])
 
     if legend:
