@@ -1,7 +1,7 @@
 import numpy as np
 from Plotting.colorFuncs import createMAP, normalizeCMAP
 
-def ColorPlot(xValues, yValues, data, ax, cbarMax=1, cbarMin=0, cmap='YlGn'): #pylint:disable=too-many-arguments
+def ColorPlot(xValues, yValues, data, ax, cbarMax=1, cbarMin=0, cmap='YlGn', logScale=False): #pylint:disable=too-many-arguments
     """
     plots a `pcolormesh` from the given x,y, and data values but also uses some of the functions from `colorFuncs` to
     create custom colormaps and normalise.
@@ -25,6 +25,8 @@ def ColorPlot(xValues, yValues, data, ax, cbarMax=1, cbarMin=0, cmap='YlGn'): #p
         lower limit of the colormap, by default 0
     cmap : str, optional
         name of the colormap, by default 'YlGn'
+    logScale : bool, optional
+        If True, the colormap is log separated, by default False
 
     Returns
     -------
@@ -33,7 +35,7 @@ def ColorPlot(xValues, yValues, data, ax, cbarMax=1, cbarMin=0, cmap='YlGn'): #p
     """
     Y, X = np.meshgrid(yValues, xValues)
     cm = createMAP(cmap)
-    surf1 = ax.pcolormesh(X, Y, data, cmap=cm, norm=normalizeCMAP(cm, cbarMin, cbarMax), rasterized=True)
+    surf1 = ax.pcolormesh(X, Y, data, cmap=cm, norm=normalizeCMAP(cm, cbarMin, cbarMax, logScale), rasterized=True)
     return surf1
 
 def irregColorPlot(xValues, yValue, data, ax, cbarMax=1, cbarMin=0, cmap='YlGn', logScale=False, zFullRange=True): #pylint:disable=too-many-arguments, too-many-locals
