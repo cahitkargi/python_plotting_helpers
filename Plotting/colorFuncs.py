@@ -28,12 +28,8 @@ def colorCycle(n: int, cmap: str = None) -> List:
     List
         a list of colors (linearly) uniformly sampled from a colormap
     """
-    if cmap is None:
-        cmap = cm.viridis # pylint:disable=no-member
-    else:
-        cmap = getattr(cm, cmap)
-    c = [cmap(i) for i in np.linspace(0, 1, n)]
-    return c
+    cmap = getattr(cm, 'viridis' if cmap is None else cmap)
+    return [cmap(i) for i in np.linspace(0, 1, n)]
 
 def __txtTocdict(file, half=False):
     r"""

@@ -5,7 +5,7 @@ from quanguru import EigenVectorDist, WignerSurmise
 from .colorFuncs import colorCycle
 
 def plotEigStat(data, dimension, ax, bins, stepPlot=True, legend=False, theoryLines=True, density=True, htype='bar',#pylint:disable=too-many-arguments, bad-option-value, dangerous-default-value, too-many-locals
-                color=None, labels=[r'COE', r'CUE', r'CSE '], linewidth=1, alpha=1):
+                color=None, labels=[r'COE', r'CUE', r'CSE '], linewidth=1, alpha=1, **kwargs):
     """
     Function to plot a histogram for the eigenvector statistics and also plots the theory lines on top.
 
@@ -39,7 +39,7 @@ def plotEigStat(data, dimension, ax, bins, stepPlot=True, legend=False, theoryLi
     axes
         returns the given axes object back
     """
-    hist = ax.hist(data, bins=bins, density=density, histtype=htype, color=color, alpha=alpha)
+    hist = ax.hist(data, bins=bins, density=density, histtype=htype, color=color, alpha=alpha, **kwargs)
     if not isinstance(bins, str):
         bins = hist[1]
     else:

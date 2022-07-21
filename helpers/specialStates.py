@@ -3,6 +3,11 @@ import numpy as np
 import quanguru.QuantumToolbox.states as qst
 import quanguru.QuantumToolbox.linearAlgebra as qlina
 
+def _determineAngle(cNumber):
+    # phase of a unit complex number
+    angle = np.arccos(np.real(cNumber))
+    return -angle if np.imag(cNumber) < 0 else angle
+
 def spinCoherent(theta, phi):
     # spin coherent state of a qubit, by definition already normalized
     plusComponent = np.cos(theta/2)*qst.basis(2, 0)
@@ -20,11 +25,6 @@ def spinCoherentRange(thetas, phis, N=1):
         for phi in phis:
             states.append(spinCoherentComposite(theta, phi, N))
     return states
-
-def _determineAngle(cNumber):
-    # phase of a unit complex number
-    angle = np.arccos(np.real(cNumber))
-    return -angle if np.imag(cNumber) < 0 else angle
 
 def _gaussianRNDC(normalise=False):
     # complex number with Gaussian random components
