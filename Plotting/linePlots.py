@@ -1,4 +1,4 @@
-def pltAveg(ax1, datax, datay, ranges=[0, 1], linewidth=1): #pylint:disable=dangerous-default-value
+def pltAveg(ax1, datax, datay, ranges=[0, 1], linewidth=1, **kwargs): #pylint:disable=dangerous-default-value
     """
     Plots a line into an axes by creating a y-axes on the right-hand side of the given axes (i.e. uses twinx).
     I use this mainly for plotting the averages of the colorplots on top of them, and the y-ax values for that case are
@@ -24,7 +24,7 @@ def pltAveg(ax1, datax, datay, ranges=[0, 1], linewidth=1): #pylint:disable=dang
     """
     ax = ax1.twinx()
     #ax.scatter(datax, datay, color='k', s=1)
-    ax.plot(datax, datay, color='k', linewidth=linewidth, linestyle="-")
+    ax.plot(datax, datay, color= kwargs.pop('color', 'k'), linewidth=linewidth, linestyle="-", **kwargs)
     ax.set_ylim([ranges[0], ranges[1]])
     ax.set_yticks([ranges[0], (ranges[0]+ranges[1])/2, ranges[1]])
     ax.set_yticklabels([ranges[0], (ranges[0]+ranges[1])/2, ranges[1]], rotation=0)
