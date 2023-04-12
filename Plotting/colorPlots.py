@@ -1,5 +1,5 @@
 import numpy as np
-from Plotting.colorFuncs import createMAP, normalizeCMAP
+from .colorFuncs import createMAP, normalizeCMAP
 
 def ColorPlot(xValues, yValues, data, ax, cbarMax=1, cbarMin=0, cmap='YlGn', logScale=False): #pylint:disable=too-many-arguments
     """
