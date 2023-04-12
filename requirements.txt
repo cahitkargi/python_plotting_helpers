@@ -1,15 +1,2 @@
 numpy
-scipy
-ipykernel
-PyQt5
 matplotlib
-quanguru
-
-pylint
-flake8
-mypy
-
-pytest
-pytest-cov
-pytest-depends
-anybadge
