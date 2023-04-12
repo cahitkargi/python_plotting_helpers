@@ -1,4 +1,3 @@
-import os
 from typing import List, Union
 import numpy as np
 from matplotlib import cm
