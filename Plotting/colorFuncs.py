@@ -31,37 +31,10 @@ def colorCycle(n: int, cmap: str = None) -> List:
     cmap = getattr(cm, 'viridis' if cmap is None else cmap)
     return [cmap(i) for i in np.linspace(0, 1, n)]
 
-def __txtTocdict(file, half=False):
+
+def createCMAP(name: str):
     r"""
-    Reads the color (RGB) values from txt and used in `createMAP` to create custom colormaps.
-    For internal use only.
-    """
-    list1 = []
-    with open(file, "r") as inputfile:
-        ina = 0
-        for line in inputfile:
-            list2 = []
-            for i in range(3):
-                list2.append(float(line.strip().split(',')[i]))
-
-            if ((ina < 128) and (half is not None)):
-                list1.append(list2)
-                if half is True:
-                    ina += 1
-            elif half is None:
-                if ina >= 128:
-                    list1.append(list2)
-                ina += 1
-            else:
-                break
-    return list1
-
-def createMAP(name: str, half: bool = False):
-    r"""
-    Creates a custom/matplotlib colormaps and can divide custom maps from half.
-
-    The custom maps are `GnYlPu`, `PuYlGn`, `YlPu`, `PuYl`, `GnYl`, and `YlGn`. For matplotlib colormaps, give the name
-    of the colormap.
+    Creates matplotlib colormap from the name of the colormap.
 
     Parameters
     ----------
@@ -75,21 +48,7 @@ def createMAP(name: str, half: bool = False):
     colormap
         returns a colormap
     """
-    if name == 'GnYlPu':
-        cmap = lscm.from_list('my_map', __txtTocdict(os.path.join(root + "/colormaps/GnYlPu.txt"), half))
-    elif name == 'PuYlGn':
-        cmap = lscm.from_list('my_map', __txtTocdict(os.path.join(root+"/colormaps/PuYlGn.txt"), half))
-    elif name == 'YlPu':
-        cmap = lscm.from_list('my_map', __txtTocdict(os.path.join(root+"/colormaps/YlPu.txt"), half))
-    elif name == 'PuYl':
-        cmap = lscm.from_list('my_map', __txtTocdict(os.path.join(root+"/colormaps/PuYl.txt"), half))
-    elif name == 'GnYl':
-        cmap = lscm.from_list('my_map', __txtTocdict(os.path.join(root + "/colormaps/GnYlPu.txt"), True))
-    elif name == 'YlGn':
-        cmap = lscm.from_list('my_map', __txtTocdict(os.path.join(root+"/colormaps/PuYlGn.txt"), None))
-    else:
-        cmap = plt.get_cmap(name)
-    return cmap
+    return plt.get_cmap(name)
 
 def cutColorMap(cmapName='viridis', minLim=0.5, maxLim=1):
     """
