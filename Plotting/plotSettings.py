@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tck
 import matplotlib as mpl
-from Plotting.figCreate import cm2inch
+from .figCreate import cm2inch
 
 def setLimits(axGrids, xlims = None, ylims = None):
     """
