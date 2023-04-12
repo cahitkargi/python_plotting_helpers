@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap as lscm
 from matplotlib.ticker import MaxNLocator
 from matplotlib.colors import BoundaryNorm, LogNorm
-root = os.path.dirname(__file__)
 
 
 def colorCycle(n: int, cmap: str = None) -> List:
