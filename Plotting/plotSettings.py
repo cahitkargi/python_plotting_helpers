@@ -47,7 +47,7 @@ def setTicks(axGrids, xTicks=None, yTicks=None):
         for ax in axGrids:
             ax.set_yticks(yTicks)
 
-def omitTicks(axList, rows, columns, xt=True, yt=True, ticklabels=False): # pylint:disable=too-many-arguments
+def omitTicklabels(axList, rows, columns, xt=True, yt=True, ticks=True): # pylint:disable=too-many-arguments
     """
     Omits the ticks and/or tick-labels of shared axes in a grid.
 
@@ -69,14 +69,14 @@ def omitTicks(axList, rows, columns, xt=True, yt=True, ticklabels=False): # pyli
     for ind, ax in enumerate(axList):
         if xt:
             if ind < (columns*(rows-1)):
-                if ticklabels:
+                if ticks:
                     ax.set_xticklabels([])
                 else:
                     ax.set_xticks([])
 
         if yt:
             if ind%columns != 0:
-                if ticklabels:
+                if ticks:
                     ax.set_yticklabels([])
                 else:
                     ax.set_yticks([])
@@ -139,7 +139,7 @@ def createLegend(ax, **kwargs):
         axes object
     """
     defaultKwargs = {
-        'title':'j value',
+        'title':'',
         'loc':'upper left',
         'handlelength':1,
         'handletextpad':0.25,
@@ -148,7 +148,7 @@ def createLegend(ax, **kwargs):
         'ncol':3,
         'handleheight':1,
         'labelspacing':0.2,
-        'prop':dict(size=7)
+        'prop':dict(size=8)
     }
     leg = ax.legend(**kwargs, **{k:v for k, v in defaultKwargs.items() if k not in kwargs})
     for line in leg.get_lines():
@@ -163,8 +163,23 @@ def rcSettings():
     plt.rcParams["axes.axisbelow"] = False
     mpl.rcParams["font.serif"] = "STIX"
     mpl.rcParams["mathtext.fontset"] = "stix"
-    plt.rcParams.update({'font.size': 10,'legend.frameon': False,'legend.title_fontsize':8})
+    plt.rcParams.update({'font.size': 10,'legend.frameon': False,'legend.title_fontsize':10})
     mpl.rcParams['text.usetex'] = True
     mpl.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
     plt.rcParams["figure.figsize"] = cm2inch(8.5, 8)
     plt.rcParams['figure.dpi'] = 200
+
+def _setLogSub(ax, axFunc, axStr):
+    getattr(ax, axFunc)('log')
+    locmaj = mpl.ticker.LogLocator(base=10,numticks=12) 
+    getattr(ax, axStr).set_major_locator(locmaj)
+    locmin = mpl.ticker.LogLocator(base=10.0,subs=(0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),numticks=12)
+    getattr(ax, axStr).set_minor_locator(locmin)
+    getattr(ax, axStr).set_minor_formatter(mpl.ticker.NullFormatter())
+
+def setLogScale(ax, xLog=False, yLog=False):
+    if xLog:
+        _setLogSub(ax, 'set_xscale', 'xaxis')
+
+    if yLog:
+        _setLogSub(ax, 'set_yscale', 'yaxis')

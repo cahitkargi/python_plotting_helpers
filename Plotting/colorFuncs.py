@@ -2,6 +2,7 @@ from typing import List, Union
 import numpy as np
 from matplotlib import cm
 import matplotlib.pyplot as plt
+import matplotlib.colors as colors
 from matplotlib.colors import LinearSegmentedColormap as lscm
 from matplotlib.ticker import MaxNLocator
 from matplotlib.colors import BoundaryNorm, LogNorm
@@ -29,6 +30,12 @@ def colorCycle(n: int, cmap: str = None) -> List:
     cmap = getattr(cm, 'viridis' if cmap is None else cmap)
     return [cmap(i) for i in np.linspace(0, 1, n)]
 
+
+def truncateColormap(cmap, minval=0.0, maxval=1.0, n=256):
+    new_cmap = colors.LinearSegmentedColormap.from_list(
+        'trunc({n},{a:.2f},{b:.2f})'.format(n=cmap.name, a=minval, b=maxval),
+        cmap(np.linspace(minval, maxval, n)))
+    return new_cmap
 
 def createCMAP(name: str):
     r"""

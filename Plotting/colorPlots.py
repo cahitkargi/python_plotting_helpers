@@ -1,7 +1,7 @@
 import numpy as np
-from .colorFuncs import createMAP, normalizeCMAP
+from .colorFuncs import normalizeCMAP
 
-def ColorPlot(xValues, yValues, data, ax, cbarMax=1, cbarMin=0, cmap='YlGn', logScale=False): #pylint:disable=too-many-arguments
+def ColorPlot(xValues, yValues, data, ax, cbarMax=1, cbarMin=0, cmap='YlGn', logColorScale=False): #pylint:disable=too-many-arguments
     """
     plots a `pcolormesh` from the given x,y, and data values but also uses some of the functions from `colorFuncs` to
     create custom colormaps and normalise.
@@ -35,10 +35,10 @@ def ColorPlot(xValues, yValues, data, ax, cbarMax=1, cbarMin=0, cmap='YlGn', log
     """
     Y, X = np.meshgrid(yValues, xValues)
     cm = createMAP(cmap)
-    surf1 = ax.pcolormesh(X, Y, data, cmap=cm, norm=normalizeCMAP(cm, cbarMin, cbarMax, logScale), rasterized=True)
+    surf1 = ax.pcolormesh(X, Y, data, cmap=cm, norm=normalizeCMAP(cm, cbarMin, cbarMax, logColorScale), rasterized=True)
     return surf1
 
-def irregColorPlot(xValues, yValue, data, ax, cbarMax=1, cbarMin=0, cmap='YlGn', logScale=False, zFullRange=True): #pylint:disable=too-many-arguments, too-many-locals
+def irregColorPlot(xValues, yValue, data, ax, cbarMax=1, cbarMin=0, cmap='YlGn', logColorScale=False, zFullRange=True): #pylint:disable=too-many-arguments, too-many-locals
     """
     plots a `pcolormesh` for an irregular data, which means the number of y values is different for x values.
     Currently, I use it only for step size sweeps, so it works with a yValue rather than a list of yValues.
@@ -86,5 +86,5 @@ def irregColorPlot(xValues, yValue, data, ax, cbarMax=1, cbarMin=0, cmap='YlGn',
                 z0.append(data[ind][bkg])
                 Z0.append(z0)
         cm = createMAP(cmap)
-        surf1 = ax.pcolormesh(X0, Y0, Z0, cmap=cm, norm=normalizeCMAP(cm, cbarMin, cbarMax, logScale), rasterized=True)
+        surf1 = ax.pcolormesh(X0, Y0, Z0, cmap=cm, norm=normalizeCMAP(cm, cbarMin, cbarMax, logColorScale), rasterized=True)
     return surf1
