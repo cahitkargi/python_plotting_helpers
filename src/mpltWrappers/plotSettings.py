@@ -128,7 +128,7 @@ def axTickSettings(ax, yonly=False, left=True, right=False, bottom=True, top=Fal
     for tick in ax.yaxis.get_major_ticks():
         tick.label.set_fontsize(fontsize)
 
-def createLegend(ax, **kwargs):
+def createLegend(ax, *args, **kwargs):
     """
     Creates a legend for the given axes and pplies certain settings to the legend.
     You can use any kwargs for legend settings to overwrite the default values or modify futher.
@@ -150,7 +150,7 @@ def createLegend(ax, **kwargs):
         'labelspacing':0.2,
         'prop':dict(size=8)
     }
-    leg = ax.legend(**kwargs, **{k:v for k, v in defaultKwargs.items() if k not in kwargs})
+    leg = ax.legend(*args, **kwargs, **{k:v for k, v in defaultKwargs.items() if k not in kwargs})
     for line in leg.get_lines():
         line.set_linewidth(1)
     return leg
